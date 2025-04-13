@@ -37,6 +37,21 @@ vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper win
 -- vim.keymap.set("n", "<C-S-j>", "<C-w>J", { desc = "Move window to the lower" })
 -- vim.keymap.set("n", "<C-S-k>", "<C-w>K", { desc = "Move window to the upper" })
 
+-- Nvim DAP
+vim.keymap.set('n', '<leader>dl', "<cmd>lua require'dap'.step_into()<CR>", { desc = 'Debugger step into' })
+vim.keymap.set('n', '<leader>dj', "<cmd>lua require'dap'.step_over()<CR>", { desc = 'Debugger step over' })
+vim.keymap.set('n', '<leader>dk', "<cmd>lua require'dap'.step_out()<CR>", { desc = 'Debugger step out' })
+vim.keymap.set('n', '<leader>dc', "<cmd>lua require'dap'.continue()<CR>", { desc = 'Debugger continue' })
+vim.keymap.set('n', '<leader>db', "<cmd>lua require'dap'.toggle_breakpoint()<CR>", { desc = 'Debugger toggle breakpoint' })
+vim.keymap.set(
+  'n',
+  '<leader>dd',
+  "<cmd>lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>",
+  { desc = 'Debugger set conditional breakpoint' }
+)
+vim.keymap.set('n', '<leader>de', "<cmd>lua require'dap'.terminate()<CR>", { desc = 'Debugger reset' })
+vim.keymap.set('n', '<leader>dr', "<cmd>lua require'dap'.run_last()<CR>", { desc = 'Debugger run last' })
+
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 
