@@ -44,7 +44,15 @@ return {
           map('gra', vim.lsp.buf.code_action, 'LSP: [C]ode [A]ction', { 'n', 'x' })
           map('grr', require('telescope.builtin').lsp_references, 'LSP: [G]oto [R]eferences')
           map('gri', require('telescope.builtin').lsp_implementations, 'LSP: [G]oto [I]mplementation')
-          map('grd', require('telescope.builtin').lsp_definitions, 'LSP: [G]oto [D]efinition')
+
+          map('grd', function()
+            if vim.bo.filetype == 'cs' then
+              require('omnisharp_extended').telescope_lsp_definitions()
+            else
+              require('telescope.builtin').lsp_definitions()
+            end
+          end, 'LSP: [G]oto [D]efinition')
+
           map('grD', vim.lsp.buf.declaration, 'LSP: [G]oto [D]eclaration')
           map('gO', require('telescope.builtin').lsp_document_symbols, 'LSP: Document Symbols')
           map('gW', require('telescope.builtin').lsp_dynamic_workspace_symbols, 'LSP: Workspace Symbols')
@@ -91,6 +99,7 @@ return {
           'cmake',
           'gopls',
           'lua_ls',
+          'netcoredbg',
           'omnisharp',
           'pyright',
           'rust_analyzer',

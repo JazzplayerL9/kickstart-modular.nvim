@@ -60,8 +60,8 @@ return {
       -- Document existing key chains
       spec = {
         { '<leader>s', group = '[S]earch' },
-        { '<leader>t', group = '[T]oggle' },
-        { '<leader>m', group = '[M]anage tasks' },
+        { '<leader>t', group = '[T]oggle/Test' },
+        { '<leader>r', group = '[R]un/Task' },
         { '<leader>c', group = '[C]rates (LSP Actions: gra)' },
         { '<leader>d', group = '[D]ebug' },
         { '<leader>g', group = '[G]it' },
