@@ -8,12 +8,18 @@ return {
   },
   {
     'MoaidHathot/dotnet.nvim',
-    opts = {},
-    keys = {
-      { '<leader>np', function() require('dotnet').ui() end, desc = '.NET: [P]roject UI' },
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      'nvim-telescope/telescope.nvim',
     },
+    opts = {},
     config = function(_, opts)
       require('dotnet').setup(opts)
+      vim.keymap.set('n', '<leader>np', '<cmd>DotnetUI new_item<cr>', { desc = '.NET: [N]ew [P]roject/Item' })
+      vim.keymap.set('n', '<leader>na', '<cmd>DotnetUI project package add<cr>', { desc = '.NET: [A]dd Package' })
+      vim.keymap.set('n', '<leader>nx', '<cmd>DotnetUI project package remove<cr>', { desc = '.NET: [R]emove Package' })
+      vim.keymap.set('n', '<leader>nr', '<cmd>DotnetUI project reference add<cr>', { desc = '.NET: Add [R]eference' })
+      vim.keymap.set('n', '<leader>nd', '<cmd>DotnetUI project reference remove<cr>', { desc = '.NET: Remove [D]eference' })
     end,
   },
   {
