@@ -12,7 +12,7 @@ return {
         -- so it opens automatically on failure.
         ['default'] = {
           { 'display_duration' },
-          { 'on_output_summarize', display_results = true },
+          { 'on_output_parse', problem_matcher = '$rustc' },
           { 'on_exit_set_status' },
           { 'on_complete_notify' },
           { 'on_output_quickfix', open_on_exit = 'failure' },
