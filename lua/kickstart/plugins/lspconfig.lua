@@ -136,6 +136,23 @@ return {
         },
       })
 
+      -- 4. Enable the servers.
+      --    This is REQUIRED in Neovim 0.11+ to actually start the clients.
+      local servers = {
+        'bashls',
+        'clangd',
+        'cmake',
+        'gopls',
+        'lua_ls',
+        'omnisharp',
+        'pyright',
+        'rust_analyzer',
+      }
+
+      for _, server in ipairs(servers) do
+        vim.lsp.enable(server)
+      end
+
       -- You can add configurations for other servers here, for example:
       -- vim.lsp.config('pyright', { ...pyright settings... })
       -- vim.lsp.config('gopls', { ...gopls settings... })
