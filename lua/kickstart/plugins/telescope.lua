@@ -107,6 +107,11 @@ return {
       vim.keymap.set('n', '<leader>sn', function()
         builtin.find_files { cwd = vim.fn.stdpath 'config' }
       end, { desc = '[S]earch [N]eovim files' })
+
+      -- Git related telescope mappings
+      vim.keymap.set('n', '<leader>gs', builtin.git_status, { desc = '[G]it [s]tatus' })
+      vim.keymap.set('n', '<leader>gc', builtin.git_commits, { desc = '[G]it [c]ommits' })
+      vim.keymap.set('n', '<leader>gB', builtin.git_branches, { desc = '[G]it [B]ranches' })
     end,
   },
 }

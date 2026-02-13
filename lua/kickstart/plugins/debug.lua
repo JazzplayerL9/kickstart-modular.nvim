@@ -25,7 +25,64 @@ return {
     'leoluz/nvim-dap-go',
   },
   keys = {
-    -- Basic debugging keymaps, feel free to change to your liking!
+    -- Basic debugging keymaps
+    {
+      '<leader>dc',
+      function()
+        require('dap').continue()
+      end,
+      desc = '[D]ebug: [C]ontinue',
+    },
+    {
+      '<leader>di',
+      function()
+        require('dap').step_into()
+      end,
+      desc = '[D]ebug: Step [I]nto',
+    },
+    {
+      '<leader>dv',
+      function()
+        require('dap').step_over()
+      end,
+      desc = '[D]ebug: Step O[v]er',
+    },
+    {
+      '<leader>do',
+      function()
+        require('dap').step_out()
+      end,
+      desc = '[D]ebug: Step [O]ut',
+    },
+    {
+      '<leader>db',
+      function()
+        require('dap').toggle_breakpoint()
+      end,
+      desc = '[D]ebug: Toggle [B]reakpoint',
+    },
+    {
+      '<leader>dB',
+      function()
+        require('dap').set_breakpoint(vim.fn.input 'Breakpoint condition: ')
+      end,
+      desc = '[D]ebug: Set [B]reakpoint',
+    },
+    {
+      '<leader>du',
+      function()
+        require('dapui').toggle()
+      end,
+      desc = '[D]ebug: [U]I Toggle',
+    },
+    {
+      '<leader>dt',
+      function()
+        require('dap').terminate()
+      end,
+      desc = '[D]ebug: [T]erminate',
+    },
+    -- Keep F-keys as well for convenience
     {
       '<F5>',
       function()
@@ -54,21 +111,6 @@ return {
       end,
       desc = 'Debug: Step Out',
     },
-    {
-      '<leader>b',
-      function()
-        require('dap').toggle_breakpoint()
-      end,
-      desc = 'Debug: Toggle Breakpoint',
-    },
-    {
-      '<leader>B',
-      function()
-        require('dap').set_breakpoint(vim.fn.input 'Breakpoint condition: ')
-      end,
-      desc = 'Debug: Set Breakpoint',
-    },
-    -- Toggle to see last session result. Without this, you can't see session output in case of unhandled exception.
     {
       '<F7>',
       function()

@@ -21,3 +21,12 @@ require 'lazy-plugins'
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
+
+-- Gracefully stop LSP clients on exit to prevent RPC errors
+vim.api.nvim_create_autocmd('VimLeavePre', {
+  callback = function()
+    for _, client in ipairs(vim.lsp.get_clients()) do
+      client.stop()
+    end
+  end,
+})

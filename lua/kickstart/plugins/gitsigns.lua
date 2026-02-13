@@ -70,6 +70,12 @@ return {
         map('n', '<leader>hD', function()
           gitsigns.diffthis '@'
         end, { desc = 'git [D]iff against last commit' })
+
+        -- Additional [G]it prefix for convenience
+        map('n', '<leader>gb', gitsigns.blame_line, { desc = '[G]it [b]lame line' })
+        map('n', '<leader>gd', gitsigns.diffthis, { desc = '[G]it [d]iff index' })
+        map('n', '<leader>gp', gitsigns.preview_hunk, { desc = '[G]it [p]review hunk' })
+
         -- Toggles
         map('n', '<leader>tb', gitsigns.toggle_current_line_blame, { desc = '[T]oggle git show [b]lame line' })
         map('n', '<leader>tD', gitsigns.preview_hunk_inline, { desc = '[T]oggle git show [D]eleted' })
