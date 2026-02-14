@@ -23,6 +23,7 @@ return {
 
     -- Add your own debuggers here
     'leoluz/nvim-dap-go',
+    'mfussenegger/nvim-dap-python',
   },
   keys = {
     -- Basic debugging keymaps
@@ -138,6 +139,7 @@ return {
         -- Update this to ensure that you have the debuggers for the langs you want
         'delve',
         'codelldb',
+        'debugpy',
       },
     }
 
@@ -179,7 +181,6 @@ return {
     dap.listeners.before.event_terminated['dapui_config'] = dapui.close
     dap.listeners.before.event_exited['dapui_config'] = dapui.close
 
-    -- Install golang specific config
     require('dap-go').setup {
       delve = {
         -- On Windows delve must be run attached or it crashes.
@@ -187,6 +188,11 @@ return {
         detached = vim.fn.has 'win32' == 0,
       },
     }
+
+    local debugpy_path = vim.fn.stdpath 'data' .. '/mason/packages/debugpy/venv/Scripts/python.exe'
+    if vim.fn.filereadable(debugpy_path) == 1 then
+      require('dap-python').setup(debugpy_path)
+    end
 
     dap.configurations.rust = {
       {

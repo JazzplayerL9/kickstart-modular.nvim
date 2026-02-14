@@ -102,6 +102,9 @@ return {
           'netcoredbg',
           'omnisharp',
           'pyright',
+          'basedpyright',
+          'ruff',
+          'debugpy',
           'rust_analyzer',
           'stylua',
           'taplo',
@@ -120,6 +123,28 @@ return {
 
       -- 3. Configure each language server individually using vim.lsp.config.
       --    This is the new, recommended way to add custom settings.
+
+      -- Configure basedpyright.
+      vim.lsp.config('basedpyright', {
+        settings = {
+          basedpyright = {
+            analysis = {
+              autoSearchPaths = true,
+              useLibraryCodeForTypes = true,
+              diagnosticMode = 'openFilesOnly',
+              typeCheckingMode = 'basic',
+            },
+          },
+        },
+      })
+
+      -- Configure ruff.
+      vim.lsp.config('ruff', {
+        on_attach = function(client, _)
+          -- Disable hover in favor of basedpyright
+          client.server_capabilities.hoverProvider = false
+        end,
+      })
 
       -- Configure rust_analyzer with more comprehensive settings.
       vim.lsp.config('rust_analyzer', {
@@ -173,6 +198,8 @@ return {
         'lua_ls',
         'omnisharp',
         'pyright',
+        'basedpyright',
+        'ruff',
         'rust_analyzer',
         'taplo',
       }

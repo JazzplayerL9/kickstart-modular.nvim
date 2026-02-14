@@ -25,7 +25,7 @@ return {
   {
     'stevearc/overseer.nvim',
     opts = {
-      templates = { 'builtin', 'cargo', 'dotnet', 'rust' },
+      templates = { 'builtin', 'cargo', 'dotnet', 'rust', 'python' },
       component_aliases = {
         ['default'] = {
           { 'on_output_parse', problem_matcher = { '$rustc', '$mscompile' } },
@@ -44,6 +44,8 @@ return {
             overseer.run_task({ name = 'dotnet-build', autostart = true })
           elseif vim.fn.glob 'Cargo.toml' ~= '' then
             overseer.run_task({ name = 'cargo-build', autostart = true })
+          elseif vim.fn.glob 'requirements.txt' ~= '' then
+            overseer.run_task({ name = 'python-install-requirements', autostart = true })
           else
             overseer.run_task()
           end
@@ -58,6 +60,8 @@ return {
             overseer.run_task({ name = 'dotnet-run', autostart = true })
           elseif vim.fn.glob 'Cargo.toml' ~= '' then
             overseer.run_task({ name = 'cargo-run', autostart = true })
+          elseif vim.bo.filetype == 'python' then
+            overseer.run_task({ name = 'python-run', autostart = true })
           else
             overseer.run_task()
           end
@@ -72,6 +76,8 @@ return {
             overseer.run_task({ name = 'dotnet-test', autostart = true })
           elseif vim.fn.glob 'Cargo.toml' ~= '' then
             overseer.run_task({ name = 'cargo-test', autostart = true })
+          elseif vim.bo.filetype == 'python' or vim.fn.glob 'pytest.ini' ~= '' or vim.fn.glob 'tests/' ~= '' then
+            overseer.run_task({ name = 'python-test', autostart = true })
           else
             overseer.run_task()
           end

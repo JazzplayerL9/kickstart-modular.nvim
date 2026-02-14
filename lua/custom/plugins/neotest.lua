@@ -8,6 +8,7 @@ return {
       'nvim-treesitter/nvim-treesitter',
       'rouge8/neotest-rust',
       'Issafalcon/neotest-dotnet',
+      'nvim-neotest/neotest-python',
     },
     keys = {
       {
@@ -44,6 +45,9 @@ return {
         adapters = {
           require 'neotest-rust',
           require 'neotest-dotnet',
+          require 'neotest-python' {
+            dap = { adapter_name = 'debugpy' },
+          },
         },
       }
     end,
