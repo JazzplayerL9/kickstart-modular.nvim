@@ -85,7 +85,7 @@ return {
           -- This is the key setting. It tells Neovim to show virtual text
           -- for any diagnostic that is a WARNING or more severe (i.e., ERROR).
           severity_min = vim.diagnostic.severity.WARN,
-          source = 'if_many', -- Only show virtual text if there are multiple sources
+          source = 'always', -- Always show the source of the diagnostic
           spacing = 4, -- Add some space for readability
         },
       }
@@ -101,7 +101,6 @@ return {
           'lua_ls',
           'netcoredbg',
           'omnisharp',
-          'pyright',
           'basedpyright',
           'ruff',
           'debugpy',
@@ -132,7 +131,11 @@ return {
               autoSearchPaths = true,
               useLibraryCodeForTypes = true,
               diagnosticMode = 'openFilesOnly',
-              typeCheckingMode = 'basic',
+              typeCheckingMode = 'standard',
+              diagnosticSeverityOverrides = {
+                reportUnusedImport = 'none',
+                reportUnusedVariable = 'none',
+              },
             },
           },
         },
@@ -197,7 +200,6 @@ return {
         'gopls',
         'lua_ls',
         'omnisharp',
-        'pyright',
         'basedpyright',
         'ruff',
         'rust_analyzer',
