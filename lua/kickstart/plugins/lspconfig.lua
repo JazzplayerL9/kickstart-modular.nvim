@@ -59,7 +59,7 @@ return {
           map('grt', require('telescope.builtin').lsp_type_definitions, 'LSP: [G]oto [T]ype Definition')
 
           local client = vim.lsp.get_client_by_id(event.data.client_id)
-          if client and client.supports_method('textDocument/inlayHint', { bufnr = event.buf }) then
+          if client and client:supports_method('textDocument/inlayHint', { bufnr = event.buf }) then
             map('<leader>th', function()
               vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
             end, '[T]oggle Inlay [H]ints')
