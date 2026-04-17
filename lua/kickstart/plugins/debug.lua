@@ -135,12 +135,25 @@ return {
         type = 'codelldb',
         request = 'launch',
         program = function()
-          return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
+          return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. (vim.fn.has 'win32' == 1 and '\\' or '/'), 'file')
         end,
         cwd = '${workspaceFolder}',
         stopOnEntry = false,
         terminal = 'integrated',
         sourceLanguages = { 'rust' },
+      },
+      {
+        name = 'Debug with probe-rs',
+        type = 'probe-rs',
+        request = 'launch',
+        chip = function()
+          return vim.fn.input 'Chip: '
+        end,
+        program = function()
+          return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. (vim.fn.has 'win32' == 1 and '\\' or '/'), 'file')
+        end,
+        cwd = '${workspaceFolder}',
+        stopOnEntry = false,
       },
     }
   end,
