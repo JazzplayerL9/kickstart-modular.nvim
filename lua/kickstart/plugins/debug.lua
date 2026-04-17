@@ -99,6 +99,10 @@ return {
           -- Keep original functionality
           require('mason-nvim-dap').default_setup(config)
         end,
+        codelldb = function(config)
+          config.server_ready_timeout = 20 -- Increase timeout to 20 seconds
+          require('mason-nvim-dap').default_setup(config)
+        end,
       },
     }
 

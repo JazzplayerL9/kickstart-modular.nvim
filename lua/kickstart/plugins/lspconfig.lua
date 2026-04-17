@@ -203,7 +203,7 @@ return {
         'omnisharp',
         'basedpyright',
         'ruff',
-        -- 'rust_analyzer', -- Managed via rustup
+        'rust_analyzer',
         'taplo',
       }
 
