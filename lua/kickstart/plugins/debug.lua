@@ -53,7 +53,15 @@ return {
     {
       '<leader>du',
       function()
-        require('dapui').toggle()
+        local dapui = require 'dapui'
+        dapui.toggle()
+        -- Attempt to keep Neotree state in sync if you're toggling manually
+        local state = require('neo-tree.sources.manager').get_state 'filesystem'
+        if state.window and state.window.winid then
+          vim.cmd 'Neotree close'
+        else
+          vim.cmd 'Neotree reveal'
+        end
       end,
       desc = 'Debug: [U]I Toggle',
     },
@@ -107,9 +115,18 @@ return {
     }
 
     dapui.setup()
-    dap.listeners.after.event_initialized['dapui_config'] = dapui.open
-    dap.listeners.before.event_terminated['dapui_config'] = dapui.close
-    dap.listeners.before.event_exited['dapui_config'] = dapui.close
+    dap.listeners.after.event_initialized['dapui_config'] = function()
+      vim.cmd 'Neotree close'
+      dapui.open()
+    end
+    dap.listeners.before.event_terminated['dapui_config'] = function()
+      dapui.close()
+      vim.cmd 'Neotree reveal'
+    end
+    dap.listeners.before.event_exited['dapui_config'] = function()
+      dapui.close()
+      vim.cmd 'Neotree reveal'
+    end
 
     require('dap-go').setup {
       delve = { detached = vim.fn.has 'win32' == 0 },

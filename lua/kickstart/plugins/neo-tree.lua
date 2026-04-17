@@ -15,6 +15,15 @@ return {
   },
   opts = {
     filesystem = {
+      filtered_items = {
+        visible = true, -- when true, they will be displayed even if they match a filter
+        hide_dotfiles = false,
+        hide_gitignored = false,
+        hide_by_name = {
+          -- '.DS_Store',
+          -- 'thumbs.db',
+        },
+      },
       window = {
         mappings = {
           ['\\'] = 'close_window',
