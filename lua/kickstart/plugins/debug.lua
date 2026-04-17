@@ -150,14 +150,61 @@ return {
     }
     dap.adapters['probe-rs'] = dap.adapters['probe-rs-debug']
 
+    local function find_executable()
+      -- Try Rust (Cargo)
+      if vim.fn.glob 'Cargo.toml' ~= '' then
+        local target_dir = 'target'
+        -- Try to get the actual target directory from cargo metadata, but don't crash if it fails
+        local ok, metadata = pcall(function()
+          local out = vim.fn.system 'cargo metadata --format-version 1 --no-deps'
+          return vim.fn.json_decode(out)
+        end)
+
+        if ok and metadata and metadata.target_directory then
+          target_dir = metadata.target_directory
+        end
+
+        local executable = target_dir .. (vim.fn.has 'win32' == 1 and '\\debug\\' or '/debug/') .. vim.fn.fnamemodify(vim.fn.getcwd(), ':t')
+        if vim.fn.has 'win32' == 1 then
+          executable = executable .. '.exe'
+        end
+
+        if vim.fn.filereadable(executable) == 1 then
+          return executable
+        end
+      end
+
+      -- Try .NET
+      local csproj = vim.fn.glob '*.csproj'
+      if csproj ~= '' then
+        local bin_dir = vim.fn.getcwd() .. (vim.fn.has 'win32' == 1 and '\\bin\\Debug\\' or '/bin/Debug/')
+        local frameworks = vim.fn.glob(bin_dir .. '*', 0, 1)
+        if #frameworks > 0 then
+          local executable = frameworks[1] .. (vim.fn.has 'win32' == 1 and '\\' or '/') .. vim.fn.fnamemodify(csproj, ':t:r')
+          if vim.fn.has 'win32' == 1 then
+            executable = executable .. '.exe'
+          else
+            -- On Linux, it might be the DLL or a standalone binary
+            if vim.fn.filereadable(executable) == 0 then
+              executable = executable .. '.dll'
+            end
+          end
+          if vim.fn.filereadable(executable) == 1 then
+            return executable
+          end
+        end
+      end
+
+      -- Default fallback to manual selection
+      return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. (vim.fn.has 'win32' == 1 and '\\' or '/'), 'file')
+    end
+
     dap.configurations.rust = {
       {
         name = 'Debug with codelldb',
         type = 'codelldb',
         request = 'launch',
-        program = function()
-          return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. (vim.fn.has 'win32' == 1 and '\\' or '/'), 'file')
-        end,
+        program = find_executable,
         cwd = '${workspaceFolder}',
         stopOnEntry = false,
         terminal = 'integrated',
@@ -170,11 +217,30 @@ return {
         chip = function()
           return vim.fn.input 'Chip: '
         end,
-        program = function()
-          return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. (vim.fn.has 'win32' == 1 and '\\' or '/'), 'file')
-        end,
+        program = find_executable,
         cwd = '${workspaceFolder}',
         stopOnEntry = false,
+      },
+    }
+
+    dap.configurations.cpp = {
+      {
+        name = 'Launch file',
+        type = 'codelldb',
+        request = 'launch',
+        program = find_executable,
+        cwd = '${workspaceFolder}',
+        stopOnEntry = false,
+      },
+    }
+    dap.configurations.c = dap.configurations.cpp
+
+    dap.configurations.cs = {
+      {
+        type = 'coreclr',
+        name = 'launch - netcoredbg',
+        request = 'launch',
+        program = find_executable,
       },
     }
   end,
