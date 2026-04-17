@@ -106,6 +106,8 @@ return {
           'debugpy',
           'stylua',
           'taplo',
+          'markdownlint',
+          'vale',
         },
       }
 

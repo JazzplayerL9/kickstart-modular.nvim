@@ -1,25 +1,58 @@
 return {
   { -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
+    branch = 'main',
     build = ':TSUpdate',
-    main = 'nvim-treesitter.configs', -- Sets main module to use for opts
+    config = function()
+      local ts = require('nvim-treesitter')
+      ts.setup {}
+
+      -- List of parsers we want to ensure are installed.
+      local ensure_installed = {
+        'bash',
+        'c',
+        'diff',
+        'html',
+        'lua',
+        'luadoc',
+        'markdown',
+        'markdown_inline',
+        'query',
+        'vim',
+        'vimdoc',
+        'rust',
+        'toml',
+        'c_sharp',
+        'python',
+        'ninja',
+      }
+      ts.install(ensure_installed)
+
+      -- Enable Treesitter features (Highlight, Folds, Indent) via autocmd
+      vim.api.nvim_create_autocmd('FileType', {
+        callback = function()
+          local lang = vim.treesitter.language.get_lang(vim.bo.filetype)
+          if lang then
+            pcall(vim.treesitter.start)
+            vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+            vim.wo.foldmethod = 'expr'
+            -- Induction (experimental)
+            pcall(function()
+              vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+            end)
+          end
+        end,
+      })
+    end,
     dependencies = {
       'nvim-treesitter/nvim-treesitter-textobjects',
     },
-    -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
-    opts = {
-      ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc', 'rust', 'toml', 'c_sharp', 'python', 'ninja' },
-      -- Autoinstall languages that are not installed
-      auto_install = true,
-      highlight = {
-        enable = true,
-        -- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
-        --  If you are experiencing weird indenting issues, add the language to
-        --  the list of additional_vim_regex_highlighting and disabled languages for indent.
-        additional_vim_regex_highlighting = { 'ruby' },
-      },
-      indent = { enable = true, disable = { 'ruby' } },
-      textobjects = {
+  },
+  {
+    'nvim-treesitter/nvim-treesitter-textobjects',
+    branch = 'main',
+    config = function()
+      require('nvim-treesitter-textobjects').setup {
         select = {
           enable = true,
           lookahead = true,
@@ -50,14 +83,8 @@ return {
             ['[]'] = '@class.outer',
           },
         },
-      },
-    },
-    -- There are additional nvim-treesitter modules that you can use to interact
-    -- with nvim-treesitter. You should go explore a few and see what interests you:
-    --
-    --    - Incremental selection: Included, see `:help nvim-treesitter-incremental-selection-mod`
-    --    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
-    --    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
+      }
+    end,
   },
 }
 -- vim: ts=2 sts=2 sw=2 et

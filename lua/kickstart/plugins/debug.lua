@@ -92,7 +92,14 @@ return {
 
     require('mason-nvim-dap').setup {
       automatic_installation = true,
-      ensure_installed = { 'delve', 'codelldb', 'debugpy' },
+      ensure_installed = { 'delve', 'codelldb', 'debugpy', 'coreclr' },
+      handlers = {
+        function(config)
+          -- all sources with no handler get passed here
+          -- Keep original functionality
+          require('mason-nvim-dap').default_setup(config)
+        end,
+      },
     }
 
     dapui.setup()
@@ -104,7 +111,8 @@ return {
       delve = { detached = vim.fn.has 'win32' == 0 },
     }
 
-    local debugpy_path = vim.fn.stdpath 'data' .. '/mason/packages/debugpy/venv/Scripts/python.exe'
+    local debugpy_bin = vim.fn.has 'win32' == 1 and '/venv/Scripts/python.exe' or '/venv/bin/python'
+    local debugpy_path = vim.fn.stdpath 'data' .. '/mason/packages/debugpy' .. debugpy_bin
     if vim.fn.filereadable(debugpy_path) == 1 then
       require('dap-python').setup(debugpy_path)
     end
