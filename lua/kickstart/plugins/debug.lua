@@ -15,16 +15,76 @@ return {
     'mfussenegger/nvim-dap-python',
   },
   keys = {
-    { '<leader>dc', function() require('dap').continue() end, desc = 'Debug: [C]ontinue' },
-    { '<leader>di', function() require('dap').step_into() end, desc = 'Debug: Step [I]nto' },
-    { '<leader>dv', function() require('dap').step_over() end, desc = 'Debug: Step O[v]er' },
-    { '<leader>do', function() require('dap').step_out() end, desc = 'Debug: Step [O]ut' },
-    { '<leader>db', function() require('dap').toggle_breakpoint() end, desc = 'Debug: Toggle [B]reakpoint' },
-    { '<leader>du', function() require('dapui').toggle() end, desc = 'Debug: [U]I Toggle' },
-    { '<F5>', function() require('dap').continue() end, desc = 'Debug: Start/Continue' },
-    { '<F1>', function() require('dap').step_into() end, desc = 'Debug: Step Into' },
-    { '<F2>', function() require('dap').step_over() end, desc = 'Debug: Step Over' },
-    { '<F3>', function() require('dap').step_out() end, desc = 'Debug: Step Out' },
+    {
+      '<leader>dc',
+      function()
+        require('dap').continue()
+      end,
+      desc = 'Debug: [C]ontinue',
+    },
+    {
+      '<leader>di',
+      function()
+        require('dap').step_into()
+      end,
+      desc = 'Debug: Step [I]nto',
+    },
+    {
+      '<leader>dv',
+      function()
+        require('dap').step_over()
+      end,
+      desc = 'Debug: Step O[v]er',
+    },
+    {
+      '<leader>do',
+      function()
+        require('dap').step_out()
+      end,
+      desc = 'Debug: Step [O]ut',
+    },
+    {
+      '<leader>db',
+      function()
+        require('dap').toggle_breakpoint()
+      end,
+      desc = 'Debug: Toggle [B]reakpoint',
+    },
+    {
+      '<leader>du',
+      function()
+        require('dapui').toggle()
+      end,
+      desc = 'Debug: [U]I Toggle',
+    },
+    {
+      '<F5>',
+      function()
+        require('dap').continue()
+      end,
+      desc = 'Debug: Start/Continue',
+    },
+    {
+      '<F1>',
+      function()
+        require('dap').step_into()
+      end,
+      desc = 'Debug: Step Into',
+    },
+    {
+      '<F2>',
+      function()
+        require('dap').step_over()
+      end,
+      desc = 'Debug: Step Over',
+    },
+    {
+      '<F3>',
+      function()
+        require('dap').step_out()
+      end,
+      desc = 'Debug: Step Out',
+    },
   },
   config = function()
     local dap = require 'dap'
@@ -55,7 +115,7 @@ return {
       host = '127.0.0.1',
       port = '${port}',
       executable = {
-        command = 'C:/Users/zajon/.cargo/bin/probe-rs.exe',
+        command = 'probe-rs',
         args = { 'dap-server', '--port', '${port}', '--single-session' },
       },
     }

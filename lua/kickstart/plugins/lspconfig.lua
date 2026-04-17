@@ -104,7 +104,6 @@ return {
           'basedpyright',
           'ruff',
           'debugpy',
-          'rust_analyzer',
           'stylua',
           'taplo',
         },
