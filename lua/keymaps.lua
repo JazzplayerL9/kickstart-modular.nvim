@@ -5,6 +5,12 @@
 --  See `:help hlsearch`
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
+-- Folding keymaps
+vim.keymap.set('n', '<leader>zf', 'za', { desc = '[Z]old toggle (current)' })
+vim.keymap.set('n', '<leader>za', 'zA', { desc = '[Z]old all toggle' })
+vim.keymap.set('n', '<leader>zm', 'zm', { desc = '[Z]old more (fold all)' })
+vim.keymap.set('n', '<leader>zr', 'zr', { desc = '[Z]old reduce (unfold all)' })
+
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
 -- is not what someone will guess without a bit more experience.
