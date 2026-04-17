@@ -141,6 +141,11 @@ return {
                 reportUnusedImport = 'none',
                 reportUnusedVariable = 'none',
               },
+              inlayHints = {
+                callArgumentNames = 'all',
+                functionReturnTypes = true,
+                variableTypes = true,
+              },
             },
           },
         },
@@ -175,8 +180,43 @@ return {
                 ['async-recursion'] = { 'async_recursion' },
               },
             },
+            hover = {
+              actions = {
+                enable = true,
+              },
+            },
+            inlayHints = {
+              bindingModeHints = {
+                enable = true,
+              },
+              chainingHints = {
+                enable = true,
+              },
+              closingBraceHints = {
+                enable = true,
+                minLines = 25,
+              },
+              closureReturnTypeHints = {
+                enable = 'always',
+              },
+              lifetimeElisionHints = {
+                enable = 'skip_trivial',
+              },
+              parameterHints = {
+                enable = true,
+              },
+              reborrowHints = {
+                enable = 'always',
+              },
+              typeHints = {
+                enable = true,
+              },
+            },
             diagnostics = {
               enable = true,
+              experimental = {
+                enable = true,
+              },
             },
           },
         },
@@ -194,6 +234,23 @@ return {
             },
           },
         },
+      })
+
+      -- Configure omnisharp.
+      vim.lsp.config('omnisharp', {
+        settings = {
+          RoslynExtensionsOptions = {
+            enableImportCompletion = true,
+            enableAnalyzersSupport = true,
+          },
+          FormattingOptions = {
+            enableEditorConfigSupport = true,
+          },
+        },
+        on_attach = function(client, _)
+          -- Enable inlay hints for OmniSharp
+          client.server_capabilities.inlayHintProvider = true
+        end,
       })
 
       -- 4. Enable the servers.
