@@ -58,6 +58,10 @@ return {
           map('gW', require('telescope.builtin').lsp_dynamic_workspace_symbols, 'LSP: Workspace Symbols')
           map('grt', require('telescope.builtin').lsp_type_definitions, 'LSP: [G]oto [T]ype Definition')
 
+          -- LSP Hover and Signature Help
+          map('K', vim.lsp.buf.hover, 'LSP: Hover Documentation')
+          map('gS', vim.lsp.buf.signature_help, 'LSP: [S]ignature Help')
+
           local client = vim.lsp.get_client_by_id(event.data.client_id)
           if client and client:supports_method('textDocument/inlayHint', { bufnr = event.buf }) then
             map('<leader>th', function()

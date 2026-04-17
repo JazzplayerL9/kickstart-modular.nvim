@@ -39,6 +39,20 @@ return {
         end,
         desc = '[T]est [O]utput',
       },
+      {
+        '[t',
+        function()
+          require('neotest').jump.prev { status = 'failed' }
+        end,
+        desc = 'Jump to [P]revious failed test',
+      },
+      {
+        ']t',
+        function()
+          require('neotest').jump.next { status = 'failed' }
+        end,
+        desc = 'Jump to [N]ext failed test',
+      },
     },
     config = function()
       require('neotest').setup {
