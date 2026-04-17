@@ -2,6 +2,7 @@ return {
   { -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
     branch = 'main',
+    lazy = false,
     build = ':TSUpdate',
     config = function()
       local ts = require('nvim-treesitter')
@@ -26,7 +27,12 @@ return {
         'python',
         'ninja',
       }
-      require('nvim-treesitter.install').ensure_installed(ensure_installed)
+      local install = require('nvim-treesitter.install')
+      if install.ensure_installed then
+        install.ensure_installed(ensure_installed)
+      else
+        ts.install(ensure_installed)
+      end
 
       -- Enable Treesitter features (Highlight, Folds, Indent) via autocmd
       vim.api.nvim_create_autocmd('FileType', {
