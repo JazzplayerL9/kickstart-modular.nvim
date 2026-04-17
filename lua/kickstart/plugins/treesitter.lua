@@ -26,7 +26,7 @@ return {
         'python',
         'ninja',
       }
-      ts.install(ensure_installed)
+      require('nvim-treesitter.install').ensure_installed(ensure_installed)
 
       -- Enable Treesitter features (Highlight, Folds, Indent) via autocmd
       vim.api.nvim_create_autocmd('FileType', {
