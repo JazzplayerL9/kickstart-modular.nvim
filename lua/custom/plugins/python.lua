@@ -13,7 +13,13 @@ return {
           return require('swenv.api').get_venvs(venvs_path)
         end,
         post_set_venv = function()
-          vim.cmd 'LspRestart'
+          local clients = vim.lsp.get_clients()
+          for _, client in ipairs(clients) do
+            client.stop()
+          end
+          vim.schedule(function()
+            vim.cmd 'edit'
+          end)
         end,
       }
     end,

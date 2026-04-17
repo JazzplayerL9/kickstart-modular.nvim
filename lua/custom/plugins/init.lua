@@ -15,11 +15,19 @@ return {
     opts = {},
     config = function(_, opts)
       require('dotnet').setup(opts)
-      vim.keymap.set('n', '<leader>np', '<cmd>DotnetUI new_item<cr>', { desc = '.NET: [N]ew [P]roject/Item' })
-      vim.keymap.set('n', '<leader>na', '<cmd>DotnetUI project package add<cr>', { desc = '.NET: [A]dd Package' })
-      vim.keymap.set('n', '<leader>nx', '<cmd>DotnetUI project package remove<cr>', { desc = '.NET: [R]emove Package' })
-      vim.keymap.set('n', '<leader>nr', '<cmd>DotnetUI project reference add<cr>', { desc = '.NET: Add [R]eference' })
-      vim.keymap.set('n', '<leader>nd', '<cmd>DotnetUI project reference remove<cr>', { desc = '.NET: Remove [D]eference' })
+      vim.api.nvim_create_autocmd('FileType', {
+        pattern = { 'cs', 'fsharp', 'vb' },
+        callback = function()
+          local map = function(keys, func, desc)
+            vim.keymap.set('n', keys, func, { buffer = true, desc = '.NET: ' .. desc })
+          end
+          map('<leader>np', '<cmd>DotnetUI new_item<cr>', '[N]ew [P]roject/Item')
+          map('<leader>na', '<cmd>DotnetUI project package add<cr>', '[A]dd Package')
+          map('<leader>nx', '<cmd>DotnetUI project package remove<cr>', '[R]emove Package')
+          map('<leader>nr', '<cmd>DotnetUI project reference add<cr>', 'Add [R]eference')
+          map('<leader>nd', '<cmd>DotnetUI project reference remove<cr>', 'Remove [D]eference')
+        end,
+      })
     end,
   },
   {
@@ -100,7 +108,20 @@ return {
       },
       { '<leader>ro', '<cmd>OverseerToggle<cr>', desc = 'Task: [O]pen list' },
       { '<leader>ra', '<cmd>OverseerTaskAction<cr>', desc = 'Task: [A]ction' },
-      { '<leader>rs', '<cmd>LspRestart<cr>', desc = 'Task: [S]tart/Restart LSP' },
+      {
+        '<leader>rs',
+        function()
+          local clients = vim.lsp.get_clients()
+          for _, client in ipairs(clients) do
+            client.stop()
+          end
+          vim.schedule(function()
+            vim.cmd 'edit'
+          end)
+          vim.notify('Restarting LSP clients...', vim.log.levels.INFO)
+        end,
+        desc = 'Task: [S]tart/Restart LSP',
+      },
       { '<leader>rm', '<cmd>OverseerRun<cr>', desc = 'Task: [M]anual run' },
     },
     config = function(_, opts)
