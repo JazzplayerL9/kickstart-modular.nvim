@@ -163,6 +163,13 @@ return {
       vim.lsp.config('rust_analyzer', {
         settings = {
           ['rust-analyzer'] = {
+            files = {
+              watcher = 'client', -- Use Neovim's file watcher (more efficient)
+              excludeDirs = { '.git', '.cargo', '.direnv', 'target', 'node_modules' },
+            },
+            lru = {
+              capacity = 1024, -- Increase cache size for larger projects
+            },
             check = {
               command = 'clippy',
             },
