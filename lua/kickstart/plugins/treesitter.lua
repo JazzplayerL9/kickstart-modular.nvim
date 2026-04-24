@@ -8,33 +8,25 @@ return {
       -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
 
       -- Standard parser management
-      local ts = require 'nvim-treesitter'
-      ---@diagnostic disable-next-line: missing-fields
-      require('nvim-treesitter.config').setup {
-        ensure_installed = {
-          'bash',
-          'c',
-          'diff',
-          'html',
-          'lua',
-          'luadoc',
-          'markdown',
-          'markdown_inline',
-          'query',
-          'vim',
-          'vimdoc',
-          'rust',
-          'toml',
-          'c_sharp',
-          'python',
-          'ninja',
-        },
-        -- Autoinstall languages that are not installed
-        auto_install = true,
-        -- We disable the plugin-managed highlight/indent modules here
-        -- and use the native Neovim 0.11+ methods instead in the autocmd below.
-        highlight = { enable = false },
-        indent = { enable = true },
+      require('nvim-treesitter').setup()
+
+      require('nvim-treesitter').install {
+        'bash',
+        'c',
+        'diff',
+        'html',
+        'lua',
+        'luadoc',
+        'markdown',
+        'markdown_inline',
+        'query',
+        'vim',
+        'vimdoc',
+        'rust',
+        'toml',
+        'c_sharp',
+        'python',
+        'ninja',
       }
 
       -- Enable Treesitter features (Highlight, Folds, Indent) via autocmd
@@ -49,6 +41,9 @@ return {
             -- Native folding
             vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
             vim.wo.foldmethod = 'expr'
+
+            -- Indentation
+            vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
           end
         end,
       })
