@@ -40,8 +40,15 @@ return {
             vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
           end
 
-          map('grn', vim.lsp.buf.rename, 'LSP: [R]e[n]ame')
-          map('gra', vim.lsp.buf.code_action, 'LSP: [C]ode [A]ction', { 'n', 'x' })
+          -- The following are now mapped by default in Neovim 0.11+:
+          -- grn: rename
+          -- gra: code action
+          -- grr: references
+          -- gri: implementation
+          -- gO: document symbols
+          -- K: hover
+
+          -- We can still override them with Telescope if we prefer that UI:
           map('grr', require('telescope.builtin').lsp_references, 'LSP: [G]oto [R]eferences')
           map('gri', require('telescope.builtin').lsp_implementations, 'LSP: [G]oto [I]mplementation')
 
@@ -54,12 +61,10 @@ return {
           end, 'LSP: [G]oto [D]efinition')
 
           map('grD', vim.lsp.buf.declaration, 'LSP: [G]oto [D]eclaration')
-          map('gO', require('telescope.builtin').lsp_document_symbols, 'LSP: Document Symbols')
           map('gW', require('telescope.builtin').lsp_dynamic_workspace_symbols, 'LSP: Workspace Symbols')
           map('grt', require('telescope.builtin').lsp_type_definitions, 'LSP: [G]oto [T]ype Definition')
 
-          -- LSP Hover and Signature Help
-          map('K', vim.lsp.buf.hover, 'LSP: Hover Documentation')
+          -- Signature Help (Neovim 0.11+ also has <C-S> in insert mode by default)
           map('gS', vim.lsp.buf.signature_help, 'LSP: [S]ignature Help')
 
           local client = vim.lsp.get_client_by_id(event.data.client_id)
@@ -125,7 +130,11 @@ return {
       --    servers are enabled and ready for configuration.
       require('mason-lspconfig').setup()
 
-      -- 3. Configure each language server individually using vim.lsp.config.
+      -- 3. Configure blink.cmp capabilities globally for all servers.
+      local capabilities = require('blink.cmp').get_lsp_capabilities()
+      vim.lsp.config('*', { capabilities = capabilities })
+
+      -- 4. Configure each language server individually using vim.lsp.config.
       --    This is the new, recommended way to add custom settings.
 
       -- Configure basedpyright.
