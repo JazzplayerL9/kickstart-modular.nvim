@@ -11,7 +11,7 @@ return {
       local obj = vim.fn.expand '%:p:r' .. '.o'
       local bin = vim.fn.expand '%:p:r'
       return {
-        cmd = string.format('nasm -f elf64 "%s" -o "%s" && ld "%s" -o "%s"', file, obj, obj, bin),
+        cmd = string.format('nasm -g -f elf64 "%s" -o "%s" && ld "%s" -o "%s"', file, obj, obj, bin),
         shell = true,
         components = { 'default' },
       }

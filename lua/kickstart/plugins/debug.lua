@@ -53,15 +53,7 @@ return {
     {
       '<leader>du',
       function()
-        local dapui = require 'dapui'
-        dapui.toggle()
-        -- Attempt to keep Neotree state in sync if you're toggling manually
-        local state = require('neo-tree.sources.manager').get_state 'filesystem'
-        if state.window and state.window.winid then
-          vim.cmd 'Neotree close'
-        else
-          vim.cmd 'Neotree reveal'
-        end
+        require('dapui').toggle()
       end,
       desc = 'Debug: [U]I Toggle',
     },
@@ -116,16 +108,20 @@ return {
 
     dapui.setup()
     dap.listeners.after.event_initialized['dapui_config'] = function()
-      vim.cmd 'Neotree close'
       dapui.open()
+      vim.schedule(function()
+        pcall(vim.cmd, 'Neotree close')
+      end)
     end
     dap.listeners.before.event_terminated['dapui_config'] = function()
       dapui.close()
-      vim.cmd 'Neotree reveal'
+      vim.schedule(function()
+        pcall(vim.cmd, 'Neotree reveal')
+      end)
     end
     dap.listeners.before.event_exited['dapui_config'] = function()
       dapui.close()
-      vim.cmd 'Neotree reveal'
+      -- No reveal here to avoid double-triggering with terminated event
     end
 
     require('dap-go').setup {
@@ -241,6 +237,17 @@ return {
         name = 'launch - netcoredbg',
         request = 'launch',
         program = find_executable,
+      },
+    }
+
+    dap.configurations.nasm = {
+      {
+        name = 'Launch file',
+        type = 'codelldb',
+        request = 'launch',
+        program = find_executable,
+        cwd = '${workspaceFolder}',
+        stopOnEntry = true,
       },
     }
   end,
