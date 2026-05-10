@@ -27,6 +27,7 @@ return {
         'c_sharp',
         'python',
         'ninja',
+        'nasm',
       }
 
       -- Enable Treesitter features (Highlight, Folds, Indent) via autocmd

@@ -117,6 +117,7 @@ return {
           'taplo',
           'markdownlint',
           'vale',
+          'asm-lsp',
         },
       }
 
@@ -252,6 +253,11 @@ return {
         },
       })
 
+      -- Configure asm_lsp to include nasm filetype.
+      vim.lsp.config('asm_lsp', {
+        filetypes = { 'asm', 'nasm', 's', 'S' },
+      })
+
       -- Configure omnisharp.
       vim.lsp.config('omnisharp', {
         settings = {
@@ -282,6 +288,7 @@ return {
         'ruff',
         'rust_analyzer',
         'taplo',
+        'asm_lsp',
       }
 
       for _, server in ipairs(servers) do

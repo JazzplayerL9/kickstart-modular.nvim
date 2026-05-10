@@ -33,7 +33,7 @@ return {
   {
     'stevearc/overseer.nvim',
     opts = {
-      templates = { 'builtin', 'cargo', 'dotnet', 'rust', 'python', 'release' },
+      templates = { 'builtin', 'cargo', 'dotnet', 'rust', 'python', 'release', 'nasm' },
       component_aliases = {
         ['default'] = {
           { 'on_output_parse', problem_matcher = { '$rustc', '$mscompile' } },
@@ -54,6 +54,8 @@ return {
             overseer.run_task({ name = 'cargo-build', autostart = true })
           elseif vim.fn.glob 'requirements.txt' ~= '' then
             overseer.run_task({ name = 'python-install-requirements', autostart = true })
+          elseif vim.bo.filetype == 'nasm' or vim.fn.glob '*.asm' ~= '' then
+            overseer.run_task({ name = 'nasm-build', autostart = true })
           else
             overseer.run_task()
           end
@@ -84,6 +86,8 @@ return {
             overseer.run_task({ name = 'cargo-run', autostart = true })
           elseif vim.bo.filetype == 'python' then
             overseer.run_task({ name = 'python-run', autostart = true })
+          elseif vim.bo.filetype == 'nasm' or vim.fn.glob '*.asm' ~= '' then
+            overseer.run_task({ name = 'nasm-run', autostart = true })
           else
             overseer.run_task()
           end
