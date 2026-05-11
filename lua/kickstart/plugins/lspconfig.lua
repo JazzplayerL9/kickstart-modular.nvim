@@ -105,7 +105,7 @@ return {
           'bashls',
           'clangd',
           'codelldb',
-          'cmake',
+          'neocmake',
           'gopls',
           'lua_ls',
           'netcoredbg',
@@ -280,7 +280,7 @@ return {
       local servers = {
         'bashls',
         'clangd',
-        'cmake',
+        'neocmake',
         'gopls',
         'lua_ls',
         'omnisharp',
