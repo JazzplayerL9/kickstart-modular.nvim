@@ -99,6 +99,11 @@ return {
         },
       }
 
+      -- Toggle diagnostics
+      vim.keymap.set('n', '<leader>td', function()
+        vim.diagnostic.enable(not vim.diagnostic.is_enabled())
+      end, { desc = '[T]oggle [D]iagnostics' })
+
       -- Set up mason-tool-installer to ensure required LSPs and tools are installed.
       require('mason-tool-installer').setup {
         ensure_installed = {
