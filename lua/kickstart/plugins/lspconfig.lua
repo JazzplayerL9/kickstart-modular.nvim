@@ -187,9 +187,11 @@ return {
             },
             check = {
               command = 'clippy',
+              allTargets = false,
             },
             cargo = {
               allFeatures = true,
+              allTargets = false,
               loadOutDirsFromCheck = true,
               buildScripts = {
                 enable = true,
