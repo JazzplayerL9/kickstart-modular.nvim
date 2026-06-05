@@ -118,7 +118,6 @@ return {
           'vale',
           'asm-lsp',
           'prettier',
-          'prettierd',
         },
       }
 
