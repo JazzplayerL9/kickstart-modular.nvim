@@ -28,6 +28,8 @@ return {
         'python',
         'ninja',
         'nasm',
+        'json',
+        'jsonc',
       }
 
       -- Enable Treesitter features (Highlight, Folds, Indent) via autocmd

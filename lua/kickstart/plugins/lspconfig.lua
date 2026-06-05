@@ -123,6 +123,8 @@ return {
           'markdownlint',
           'vale',
           'asm-lsp',
+          'prettier',
+          'prettierd',
         },
       }
 
