@@ -4,9 +4,6 @@
 -- See the kickstart.nvim README for more information
 return {
   {
-    'Hoffs/omnisharp-extended-lsp.nvim',
-  },
-  {
     'MoaidHathot/dotnet.nvim',
     dependencies = {
       'nvim-lua/plenary.nvim',

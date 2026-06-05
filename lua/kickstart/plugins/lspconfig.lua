@@ -52,13 +52,7 @@ return {
           map('grr', require('telescope.builtin').lsp_references, 'LSP: [G]oto [R]eferences')
           map('gri', require('telescope.builtin').lsp_implementations, 'LSP: [G]oto [I]mplementation')
 
-          map('grd', function()
-            if vim.bo.filetype == 'cs' then
-              require('omnisharp_extended').telescope_lsp_definitions()
-            else
-              require('telescope.builtin').lsp_definitions()
-            end
-          end, 'LSP: [G]oto [D]efinition')
+          map('grd', require('telescope.builtin').lsp_definitions, 'LSP: [G]oto [D]efinition')
 
           map('grD', vim.lsp.buf.declaration, 'LSP: [G]oto [D]eclaration')
           map('gW', require('telescope.builtin').lsp_dynamic_workspace_symbols, 'LSP: Workspace Symbols')
@@ -114,7 +108,7 @@ return {
           'gopls',
           'lua_ls',
           'netcoredbg',
-          'omnisharp',
+          'csharp_ls',
           'basedpyright',
           'ruff',
           'debugpy',
@@ -189,9 +183,11 @@ return {
             },
             check = {
               command = 'clippy',
+              allTargets = false,
             },
             cargo = {
               allFeatures = true,
+              allTargets = false,
               loadOutDirsFromCheck = true,
               buildScripts = {
                 enable = true,
@@ -265,19 +261,10 @@ return {
         filetypes = { 'asm', 'nasm', 's', 'S' },
       })
 
-      -- Configure omnisharp.
-      vim.lsp.config('omnisharp', {
-        settings = {
-          RoslynExtensionsOptions = {
-            enableImportCompletion = true,
-            enableAnalyzersSupport = true,
-          },
-          FormattingOptions = {
-            enableEditorConfigSupport = true,
-          },
-        },
+      -- Configure csharp_ls.
+      vim.lsp.config('csharp_ls', {
         on_attach = function(client, _)
-          -- Enable inlay hints for OmniSharp
+          -- Enable inlay hints for csharp_ls
           client.server_capabilities.inlayHintProvider = true
         end,
       })
@@ -290,7 +277,7 @@ return {
         'neocmake',
         'gopls',
         'lua_ls',
-        'omnisharp',
+        'csharp_ls',
         'basedpyright',
         'ruff',
         'rust_analyzer',
