@@ -17,7 +17,15 @@ return {
     'neovim/nvim-lspconfig',
     dependencies = {
       -- Automatically install LSPs and related tools to stdpath for Neovim
-      { 'mason-org/mason.nvim', opts = {} },
+      {
+        'mason-org/mason.nvim',
+        opts = {
+          registries = {
+            'github:mason-org/mason-registry',
+            'github:Crashdummyy/mason-registry',
+          },
+        },
+      },
       'mason-org/mason-lspconfig.nvim',
 
       -- Useful status updates for LSP.
@@ -108,7 +116,6 @@ return {
           'gopls',
           'lua_ls',
           'netcoredbg',
-          'csharp_ls',
           'basedpyright',
           'ruff',
           'debugpy',
@@ -124,11 +131,7 @@ return {
       -- 💡 --- NEW LSP SETUP LOGIC --- 💡
       -- This section is updated for the new mason-lspconfig standard.
 
-      -- 1. Set up mason itself.
-      require('mason').setup()
-
-      -- 2. Set up mason-lspconfig. This now simply ensures that installed
-      --    servers are enabled and ready for configuration.
+      -- 1. Set up mason-lspconfig (mason.nvim is configured via lazy opts above).
       require('mason-lspconfig').setup()
 
       -- 3. Configure blink.cmp capabilities globally for all servers.
@@ -260,14 +263,6 @@ return {
         filetypes = { 'asm', 'nasm', 's', 'S' },
       })
 
-      -- Configure csharp_ls.
-      vim.lsp.config('csharp_ls', {
-        on_attach = function(client, _)
-          -- Enable inlay hints for csharp_ls
-          client.server_capabilities.inlayHintProvider = true
-        end,
-      })
-
       -- 4. Enable the servers.
       --    This is REQUIRED in Neovim 0.11+ to actually start the clients.
       local servers = {
@@ -276,7 +271,6 @@ return {
         'neocmake',
         'gopls',
         'lua_ls',
-        'csharp_ls',
         'basedpyright',
         'ruff',
         'rust_analyzer',

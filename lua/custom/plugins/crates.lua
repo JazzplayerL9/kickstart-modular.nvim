@@ -3,7 +3,14 @@ return {
     'saecki/crates.nvim',
     tag = 'stable',
     config = function()
-      require('crates').setup()
+      require('crates').setup {
+        lsp = {
+          enabled = true,
+          actions = true,
+          completion = true,
+          hover = true,
+        },
+      }
 
       local crates = require 'crates'
 

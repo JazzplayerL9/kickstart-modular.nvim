@@ -5,7 +5,6 @@ return {
       cmd = { "cargo", "build" },
       components = {
         "default",
-        { "on_output_parse", problem_matcher = "$rustc" },
       },
     }
   end,

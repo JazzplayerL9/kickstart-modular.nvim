@@ -1,16 +1,21 @@
 vim.api.nvim_create_autocmd('TermOpen', {
   group = vim.api.nvim_create_augroup('custom-term-open', { clear = true }),
   callback = function()
-    vim.opt.number = false
-    vim.opt.relativenumber = false
+    vim.opt_local.number = false
+    vim.opt_local.relativenumber = false
   end,
 })
 
-vim.keymap.set('n', '<leader>st', function()
-  vim.cmd.vnew()
-  vim.cmd.term()
-  vim.cmd.wincmd 'J'
-  vim.api.nvim_win_set_height(0, 15)
-end)
-
-return {}
+return {
+  {
+    'akinsho/toggleterm.nvim',
+    version = '*',
+    opts = {
+      size = 15,
+      direction = 'horizontal',
+    },
+    keys = {
+      { '<leader>st', '<cmd>ToggleTerm<cr>', desc = '[S]mall [T]erminal toggle' },
+    },
+  },
+}

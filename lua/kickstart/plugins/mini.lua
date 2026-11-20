@@ -11,14 +11,28 @@ return {
       require('mini.ai').setup { n_lines = 500 }
 
       -- Add/delete/replace surroundings (brackets, quotes, etc.)
+      -- Mapped to `gz*` to avoid conflicting with flash.nvim on `s`
       --
-      -- - saiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
-      -- - sd'   - [S]urround [D]elete [']quotes
-      -- - sr)'  - [S]urround [R]eplace [)] [']
-      require('mini.surround').setup()
+      -- - gzaiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
+      -- - gzd'   - [S]urround [D]elete [']quotes
+      -- - gzr)'  - [S]urround [R]eplace [)] [']
+      require('mini.surround').setup {
+        mappings = {
+          add = 'gza',
+          delete = 'gzd',
+          find = 'gzf',
+          find_left = 'gzF',
+          highlight = 'gzh',
+          replace = 'gzr',
+          update_n_lines = 'gzn',
+        },
+      }
 
       -- Go forward/backward with square brackets
-      require('mini.bracketed').setup()
+      -- Disable treesitter `[t`/`]t` to avoid conflicting with neotest failed-test jumps
+      require('mini.bracketed').setup {
+        treesitter = { suffix = '' },
+      }
 
       -- Simple and easy statusline.
       --  You could remove this setup call if you don't like it,

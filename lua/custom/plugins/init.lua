@@ -112,14 +112,14 @@ return {
       {
         '<leader>rs',
         function()
-          local clients = vim.lsp.get_clients()
+          local clients = vim.lsp.get_clients { bufnr = 0 }
           for _, client in ipairs(clients) do
-            client.stop()
+            client:stop()
           end
           vim.schedule(function()
             vim.cmd 'edit'
           end)
-          vim.notify('Restarting LSP clients...', vim.log.levels.INFO)
+          vim.notify('Restarting LSP clients for current buffer...', vim.log.levels.INFO)
         end,
         desc = 'Task: [S]tart/Restart LSP',
       },
@@ -144,6 +144,11 @@ return {
         '<leader>xX',
         '<cmd>Trouble diagnostics toggle filter.buf=0<cr>',
         desc = 'Buffer Diagnostics (Trouble)',
+      },
+      {
+        '<leader>o',
+        '<cmd>Trouble symbols toggle focus=false<cr>',
+        desc = 'Symbols (Trouble)',
       },
       {
         '<leader>cs',
@@ -196,6 +201,21 @@ return {
       separator = nil,
       zindex = 20, -- The Z-index of the context window
       on_attach = nil, -- (fun(buf: integer): boolean) return false to disable attaching
+    },
+  },
+  {
+    'seblyng/roslyn.nvim',
+    ft = { 'cs', 'razor' },
+    ---@module 'roslyn.config'
+    ---@type RoslynNvimConfig
+    opts = {},
+  },
+  {
+    'stevearc/oil.nvim',
+    dependencies = { 'nvim-tree/nvim-web-devicons' },
+    opts = {},
+    keys = {
+      { '-', '<cmd>Oil<cr>', desc = 'Open parent directory (Oil)' },
     },
   },
 }

@@ -1,36 +1,16 @@
 return {
   {
-    'AckslD/swenv.nvim',
+    'linux-cultist/venv-selector.nvim',
+    branch = 'main',
     dependencies = {
-      'nvim-lua/plenary.nvim',
+      'neovim/nvim-lspconfig',
       'nvim-telescope/telescope.nvim',
+      'mfussenegger/nvim-dap-python',
     },
-    config = function()
-      require('swenv').setup {
-        -- Should return a list of python executables.
-        -- In this case, we'll look for .venv folders in the current directory
-        get_venvs = function(venvs_path)
-          return require('swenv.api').get_venvs(venvs_path)
-        end,
-        post_set_venv = function()
-          local clients = vim.lsp.get_clients()
-          for _, client in ipairs(clients) do
-            client.stop()
-          end
-          vim.schedule(function()
-            vim.cmd 'edit'
-          end)
-        end,
-      }
-    end,
+    ft = 'python',
+    opts = {},
     keys = {
-      {
-        '<leader>vs',
-        function()
-          require('swenv.api').pick_venv()
-        end,
-        desc = '[V]env [S]elect',
-      },
+      { '<leader>vs', '<cmd>VenvSelect<cr>', desc = '[V]env [S]elect' },
     },
   },
 }
