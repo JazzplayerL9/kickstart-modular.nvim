@@ -54,4 +54,15 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
+-- Reload files changed outside Neovim (e.g. by external CLI agents)
+vim.api.nvim_create_autocmd({ 'FocusGained', 'BufEnter', 'CursorHold' }, {
+  desc = 'Check for external file changes',
+  group = vim.api.nvim_create_augroup('external-file-reload', { clear = true }),
+  callback = function()
+    if vim.fn.getcmdwintype() == '' then
+      vim.cmd 'checktime'
+    end
+  end,
+})
+
 -- vim: ts=2 sts=2 sw=2 et
